@@ -1,0 +1,49 @@
+<head>
+<title>Simple Faction List</title>
+<script type="text/javascript">
+var opts = {
+  method: 'GET',      
+  headers: {},
+  cache: 'no-store'
+};
+var api_key;
+var list;
+var sts;
+function createItem(text) {
+    let p = document.createElement('p');
+    p.innerHTML = text;
+    return p;
+} 
+function init() {
+api_key = document.getElementById("api_key");
+list = document.getElementById("list");
+sts = document.getElementById("sts");
+}
+function update() {
+list.innerHTML="";
+sts.innerHTML="Updating";
+fetch('https://api.torn.com/faction/230?selections=basic&key='+api_key.value, opts).then(function (response) { 
+return response.json();
+}).then(function (body) {
+for (fighter in body.members) {
+let la = body.members[fighter].last_action.status;
+let hosp = body.members[fighter].status.description;
+if(la=="Online"&&hosp.includes("hospital")) {
+list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+fighter+" target=\"_blank\">"+body.members[fighter].name+"</a>"));
+}
+}
+sts.innerHTML="Done";
+});
+}
+window.onload = function() {
+    init();
+};
+</script>
+</head>
+<body>
+<input id="api_key"/>
+<button onclick="update()">Update</button>
+<p id="sts"></p>
+<div id="list">
+</div>
+</body>
