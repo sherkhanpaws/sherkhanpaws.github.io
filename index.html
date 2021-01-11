@@ -9,6 +9,7 @@ var opts = {
 var api_key;
 var list;
 var sts;
+var found = false;
 function createItem(text) {
     let p = document.createElement('p');
     p.innerHTML = text;
@@ -22,17 +23,24 @@ sts = document.getElementById("sts");
 function update() {
 list.innerHTML="";
 sts.innerHTML="Updating";
-fetch('https://api.torn.com/faction/230?selections=basic&key='+api_key.value, opts).then(function (response) { 
+let url = "https://api.torn.com/faction/230?selections=basic&key="+api_key.value+"&cache_control="+new Date().getTime();
+console.log(url);
+fetch(url, opts).then(function (response) { 
 return response.json();
 }).then(function (body) {
 for (fighter in body.members) {
 let la = body.members[fighter].last_action.status;
 let hosp = body.members[fighter].status.description;
+
 if(la=="Online"&&hosp.includes("hospital")) {
 list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+fighter+" target=\"_blank\">"+body.members[fighter].name+"</a>"));
+found = true;
 }
 }
 sts.innerHTML="Done";
+if(!found){
+sts.innerHTML="None Found";
+}
 });
 }
 window.onload = function() {
