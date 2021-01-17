@@ -23,7 +23,7 @@ sts = document.getElementById("sts");
 function update() {
 list.innerHTML="";
 sts.innerHTML="Updating";
-let url = "https://api.torn.com/faction/230?selections=basic&key="+api_key.value+"&cache_control="+new Date().getTime();
+let url = "https://api.torn.com/faction/27223?selections=basic&key="+api_key.value+"&cache_control="+new Date().getTime();
 console.log(url);
 fetch(url, opts).then(function (response) { 
 return response.json();
