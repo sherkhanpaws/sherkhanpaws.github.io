@@ -29,6 +29,7 @@ console.log(url);
 fetch(url, opts).then(function (response) { 
 return response.json();
 }).then(function (body) {
+found = false;
 for (fighter in body.members) {
 let la = body.members[fighter].last_action.status;
 let hosp = body.members[fighter].status.description;
