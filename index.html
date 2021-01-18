@@ -19,11 +19,12 @@ function init() {
 api_key = document.getElementById("api_key");
 list = document.getElementById("list");
 sts = document.getElementById("sts");
+faction_id = document.getElementById("faction_id");
 }
 function update() {
 list.innerHTML="";
 sts.innerHTML="Updating";
-let url = "https://api.torn.com/faction/27223?selections=basic&key="+api_key.value+"&cache_control="+new Date().getTime();
+let url = "https://api.torn.com/faction/"+faction_id.value+"?selections=basic&key="+api_key.value+"&cache_control="+new Date().getTime();
 console.log(url);
 fetch(url, opts).then(function (response) { 
 return response.json();
@@ -49,7 +50,8 @@ window.onload = function() {
 </script>
 </head>
 <body>
-<input id="api_key"/>
+<input id="api_key" placeholder="api_key"/>
+<input id="faction_id" placeholder="faction Id"/>
 <button onclick="update()">Update</button>
 <p id="sts"></p>
 <div id="list">
