@@ -32,9 +32,9 @@ return response.json();
 found = false;
 for (fighter in body.members) {
 let la = body.members[fighter].last_action.status;
-let hosp = body.members[fighter].status.description;
+let hosp = body.members[fighter].status.details;
 
-if(la=="Online"&&hosp.includes("hospital")) {
+if(la=="Online"&&hosp.includes("Hospitalized")) {
 list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+fighter+" target=\"_blank\">"+body.members[fighter].name+"</a>"));
 found = true;
 }
