@@ -19,6 +19,7 @@ function init() {
 api_key = document.getElementById("api_key");
 list = document.getElementById("list");
 sts = document.getElementById("sts");
+faction_name = document.getElementById("faction_name");
 faction_id = document.getElementById("faction_id");
 }
 function update() {
@@ -30,6 +31,7 @@ fetch(url, opts).then(function (response) {
 return response.json();
 }).then(function (body) {
 found = false;
+faction_name.innerHTML = body.name;
 for (fighter in body.members) {
 let la = body.members[fighter].last_action.status;
 let hosp = body.members[fighter].status.details;
@@ -53,8 +55,11 @@ window.onload = function() {
 <body>
 <input id="api_key" placeholder="api_key"/>
 <input id="faction_id" placeholder="faction Id"/>
+<select id="type" name="Type">
+</select>
 <button onclick="update()">Update</button>
 <p id="sts"></p>
+<p id="faction_name"></p>
 <div id="list">
 </div>
 </body>
