@@ -15,7 +15,9 @@ var faction_id;
 var activity_status;
 var hosp_reason;
 var activity_filter;
-var hopital_reason;
+var auto_interval;
+var refresh_mode;
+var interval_id;
 function createItem(text) {
     let p = document.createElement('p');
     p.innerHTML = text;
@@ -28,7 +30,18 @@ sts = document.getElementById("sts");
 faction_name = document.getElementById("faction_name");
 faction_id = document.getElementById("faction_id");
 hosp_reason = document.getElementById("hosp_reason");
+auto_interval = document.getElementById("auto_interval");
+refresh_mode = ducument.getElementById("refresh_mode");
 }
+function auto() {
+  if(refresh_mode.value=="Manual") 
+     interval_id = setInterval(update,pareseInt(auto_interval.value)*1000);
+     refresh_mode.value="Auto";
+  } else {
+     clearInterval(interval_id);
+     refresh_mode.value="Manual";
+  
+  }
 function update() {
 list.innerHTML="";
 sts.innerHTML="Updating";
@@ -78,6 +91,8 @@ window.onload = function() {
 <option value="all">All</option>  
 </select>
 <button onclick="update()">Update</button>
+<input id="auto_interval" placeholder="Auto refresh interval in seconds" value="5"/>
+<button id="refresh_mode" onclick="auto()">Manual</button>
 <p id="sts"></p>
 <p id="faction_name"></p>
 <div id="list">
