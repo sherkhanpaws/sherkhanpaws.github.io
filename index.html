@@ -31,17 +31,18 @@ faction_name = document.getElementById("faction_name");
 faction_id = document.getElementById("faction_id");
 hosp_reason = document.getElementById("hosp_reason");
 auto_interval = document.getElementById("auto_interval");
-refresh_mode = ducument.getElementById("refresh_mode");
+refresh_mode = document.getElementById("refresh_mode");
 }
 function auto() {
-  if(refresh_mode.value=="Manual") 
-     interval_id = setInterval(update,pareseInt(auto_interval.value)*1000);
-     refresh_mode.value="Auto";
+  if(refresh_mode.innerHTML=="Manual") {
+     interval_id = setInterval(update,parseInt(auto_interval.value)*1000);
+     refresh_mode.innerHTML="Auto";
   } else {
      clearInterval(interval_id);
-     refresh_mode.value="Manual";
+     refresh_mode.innerHTML="Manual";
   
   }
+}
 function update() {
 list.innerHTML="";
 sts.innerHTML="Updating";
