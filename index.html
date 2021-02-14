@@ -15,7 +15,9 @@ var faction_id;
 var activity_status;
 var hosp_reason;
 var activity_filter;
-var hopital_reason;
+var auto_interval;
+var refresh_mode;
+var interval_id;
 function createItem(text) {
     let p = document.createElement('p');
     p.innerHTML = text;
@@ -28,6 +30,18 @@ sts = document.getElementById("sts");
 faction_name = document.getElementById("faction_name");
 faction_id = document.getElementById("faction_id");
 hosp_reason = document.getElementById("hosp_reason");
+auto_interval = document.getElementById("auto_interval");
+refresh_mode = document.getElementById("refresh_mode");
+}
+function auto() {
+  if(refresh_mode.innerHTML=="Manual") {
+     interval_id = setInterval(update,parseInt(auto_interval.value)*1000);
+     refresh_mode.innerHTML="Auto";
+  } else {
+     clearInterval(interval_id);
+     refresh_mode.innerHTML="Manual";
+  
+  }
 }
 function update() {
 list.innerHTML="";
@@ -38,9 +52,8 @@ console.log(url);
 fetch(url, opts).then(function (response) { 
 return response.json();
 }).then(function (body) {
-found = false;
+found = 0;
 faction_name.innerHTML = body.name;
-document.title = body.name;
 for (fighter in body.members) {
 let la = body.members[fighter].last_action.status;
 let des = body.members[fighter].status.description;
@@ -48,21 +61,20 @@ let hosp = body.members[fighter].status.details;
 if(hosp_reason.value=="hosped"){
 if(la=="Online"&&hosp.includes("Hospitalized")) {
 list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+fighter+" target=\"_blank\">"+body.members[fighter].name+"</a>"));
-found = true;
+found+=1;
 }
 }
 if(hosp_reason.value=="all"){
 if(la=="Online"&&des.includes("hospital")) {
 list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+fighter+" target=\"_blank\">"+body.members[fighter].name+"</a>"));
-found = true;
+found +=1;
 }
 }
 
 }
-sts.innerHTML="Done";
-if(!found){
-sts.innerHTML="None Found";
-}
+sts.innerHTML="Found"+found;
+document.title="("+found+")"+body.name;
+
 });
 }
 window.onload = function() {
@@ -71,13 +83,15 @@ window.onload = function() {
 </script>
 </head>
 <body>
-<input id="api_key" placeholder="api_key" value="StfK2QkPRLrc017M"/>
+<input id="api_key" placeholder="api_key" />
 <input id="faction_id" placeholder="faction Id"/>
 <select id="hosp_reason" name="Reason">
 <option value="hosped">Hospitalized</option>
 <option value="all">All</option>  
 </select>
 <button onclick="update()">Update</button>
+<input id="auto_interval" placeholder="Auto refresh interval in seconds" value="5"/>
+<button id="refresh_mode" onclick="auto()">Manual</button>
 <p id="sts"></p>
 <p id="faction_name"></p>
 <div id="list">
