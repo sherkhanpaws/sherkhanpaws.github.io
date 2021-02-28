@@ -52,10 +52,10 @@ fetch(url, opts).then(function (response) {
 return response.json();
 }).then(function (body) {
 found = 0;
-person_name.innerHTML = body.name;
 let la = body.last_action.status;
 let des = body.status.description;
 let hosp = body.status.details;  
+person_name.innerHTML = body.name+" - "+la+" - "+des+" - "+hosp;
 if(hosp_reason.value=="hosped"){
 if(la=="Online"&&hosp.includes("Hospitalized")) {
 list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+person_id+" target=\"_blank\">"+body.name+"</a>"));
