@@ -58,13 +58,13 @@ let des = body.status.description;
 let hosp = body.status.details;  
 if(hosp_reason.value=="hosped"){
 if(la=="Online"&&hosp.includes("Hospitalized")) {
-list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+fighter+" target=\"_blank\">"+body.members[fighter].name+"</a>"));
+list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+person_id+" target=\"_blank\">"+body.name+"</a>"));
 found+=1;
 }
 }
 if(hosp_reason.value=="all"){
 if(la=="Online"&&des.includes("hospital")) {
-list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+fighter+" target=\"_blank\">"+body.members[fighter].name+"</a>"));
+list.appendChild(createItem("<a href=https://www.torn.com/profiles.php?XID="+person_id+" target=\"_blank\">"+body.name+"</a>"));
 found +=1;
 }
 
